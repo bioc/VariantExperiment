@@ -11,8 +11,7 @@
 
 .granges_generalgds <- function(gdsfile, feature.num, reflen = 1L, ...){
     ftnodes <- .get_gds_annonodes(gdsfile, feature.num)
-    f <- openfn.gds(gdsfile)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(gdsfile) 
     ## Here trying to match for "chromosome" and "position" related
     ## nodes. If no match, return error.
     vidnd <- index.gdsn(f, ftnodes[grep("id", ftnodes)[1]], silent = TRUE)
@@ -56,8 +55,7 @@
             rowDataColumns)
         resDF <- DelayedDataFrame(lapply(res, I))
     }else{ ## rowDataOnDisk = FALSE...
-        f <- openfn.gds(gdsfile)
-        on.exit(closefn.gds(f))
+        f <- acquireGDS(gdsfile)
         resDF <- setNames(
             lapply(rowDataColumns, function(x) read.gdsn(index.gdsn(f, x))),
             rowDataColumns)
@@ -86,8 +84,7 @@
             DelayedDataFrame(lapply(annot, I),
                              row.names=as.character(sample.id))
         } else {
-            f <- openfn.gds(gdsfile)
-            on.exit(closefn.gds(f))
+            f <- acquireGDS(gdsfile)
             sample.id <- read.gdsn(index.gdsn(f, smpnode))
             annot <- lapply(colDataColumns, function(x) read.gdsn(index.gdsn(f, x)))
             names(annot) <- colDataColumns

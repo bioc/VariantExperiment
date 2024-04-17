@@ -55,7 +55,7 @@
 #' ve <- makeVariantExperimentFromVCF(vcf)
 #' ve
 #' ## the filepath to the gds file.
-#' gdsfile(ve)
+#' gdsfn(ve)
 #' 
 #' ## only read in specific info columns
 #' ve <- makeVariantExperimentFromVCF(vcf, out.dir = tempfile(),
@@ -121,8 +121,7 @@ makeVariantExperimentFromVCF <- function(vcf.fn,
 }
 
 .addsmpanno <- function(gdsfile, value) {
-    gfile <- openfn.gds(gdsfile, readonly=FALSE)
-    on.exit(closefn.gds(gfile))
+    gfile <- acquireGDS(gdsfile, readonly = FALSE)
     sample.id <- read.gdsn(index.gdsn(gfile, "sample.id"))
     idx <- match(sample.id, rownames(value))
     if (any(is.na(idx)))

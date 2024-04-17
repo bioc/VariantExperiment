@@ -12,15 +12,13 @@
 #' @rawNamespace import(SeqArray, except = c(colData, rowRanges))
 
 .granges_seqgds <- function(seqgdsfile, ...){
-    f <- seqOpen(seqgdsfile)
-    on.exit(seqClose(f))
+    f <- acquireGDS(seqgdsfile, type = "seqgds")
     SeqArray::granges(f)
 }
 
 ## return a DataFrame
 .varnode_seqgds_inmem <- function(seqgdsfile, node){
-    f <- seqOpen(seqgdsfile)
-    on.exit(seqClose(f))
+    f <- acquireGDS(seqgdsfile, type="seqgds")
     res <- switch(node,
                   'annotation/id' = list(seqGetData(f, "annotation/id")),
                   'annotation/qual' = list(qual(f)),
@@ -38,8 +36,7 @@
 #' @import DelayedDataFrame
 
 .infonodes_val <- function(seqgdsfile, name) {
-    f <- seqOpen(seqgdsfile)
-    on.exit(seqClose(f))
+    f <- acquireGDS(seqgdsfile, type = "seqgds")
     SeqArray::info(f, info = name)
 }
 
@@ -130,8 +127,7 @@
 }
 
 .sampnodes_seqgds <- function(seqgdsfile) {
-    f <- openfn.gds(seqgdsfile)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(seqgdsfile)
     ls.gdsn(index.gdsn(f, "sample.annotation"))
 }
 
@@ -168,8 +164,7 @@
             DelayedDataFrame(lapply(annot, I),
                              row.names=as.character(sample.id))
         } else {
-            f <- openfn.gds(seqgdsfile)
-            on.exit(closefn.gds(f))
+            f <- acquireGDS(seqgdsfile)
             sample.id <- read.gdsn(index.gdsn(f, smpnode))
             node <- paste0("sample.annotation/", colDataColumns)
             annot <- lapply(node, function(x) read.gdsn(index.gdsn(f, x)))

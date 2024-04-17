@@ -9,16 +9,14 @@
 
 .get_gds_fileFormat <- function(file)
 {
-    f <- openfn.gds(file)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(file)
     ff <- get.attr.gdsn(f$root)$FileFormat
     ff
 }
 
 .get_gdsnode_desp <- function(file, node, desp)
 {
-    f <- openfn.gds(file)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(file)
     objdesp <- objdesp.gdsn(index.gdsn(f, node))
     desp <- match.arg(desp, names(objdesp))
     objdesp[[desp]]

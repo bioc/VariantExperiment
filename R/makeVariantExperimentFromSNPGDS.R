@@ -13,8 +13,7 @@
 
 ## .granges_gdsdata
 .granges_snpgds <- function(snpgdsfile, ...){
-    f <- snpgdsOpen(snpgdsfile)
-    on.exit(snpgdsClose(f))
+    f <- acquireGDS(snpgdsfile, type = "snpgds")
     vid <- read.gdsn(index.gdsn(f, "snp.id"))
     chr <- read.gdsn(index.gdsn(f, "snp.chromosome"))
     pos <- read.gdsn(index.gdsn(f, "snp.position"))
@@ -30,8 +29,7 @@
 
 ## return a DataFrame
 .varnode_snpgds_inmem <- function(snpgdsfile, node){
-    f <- openfn.gds(snpgdsfile)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(snpgdsfile)
     res <- read.gdsn(index.gdsn(f, node))
     resDF <- setNames(DataFrame(res), node)
     if(node == "snp.allele"){
@@ -73,8 +71,7 @@
 
 ## "snp.id", "variant.id"
 .empty_rowData_DF <- function(gdsfile, ftnode, rowDataOnDisk) {
-    f <- openfn.gds(gdsfile)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(gdsfile)
     ft.id <- read.gdsn(index.gdsn(f, ftnode))
     if (rowDataOnDisk) {
         DelayedDataFrame(row.names=ft.id)
@@ -123,8 +120,7 @@
 }
 
 .sampnodes_snpgds <- function(snpgdsfile) {
-    f <- openfn.gds(snpgdsfile)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(snpgdsfile)
     ls.gdsn(index.gdsn(f, "sample.annot"))
     
 }
@@ -169,8 +165,7 @@
 }
 
 .empty_colData_DF <- function(gdsfile, smpnode, colDataOnDisk) {
-    f <- openfn.gds(gdsfile)
-    on.exit(closefn.gds(f))
+    f <- acquireGDS(gdsfile)
     sample.id <- read.gdsn(index.gdsn(f, smpnode))
     if (colDataOnDisk) {
         DelayedDataFrame(row.names=sample.id)
@@ -196,8 +191,7 @@
             DelayedDataFrame(lapply(annot, I),
                              row.names=as.character(sample.id))
         } else {
-            f <- openfn.gds(snpgdsfile)
-            on.exit(closefn.gds(f))
+            f <- acquireGDS(snpgdsfile)
             sample.id <- read.gdsn(index.gdsn(f, smpnode))
             node <- paste0("sample.annot/", colDataColumns)
             annot <- lapply(node, function(x) read.gdsn(index.gdsn(f, x)))

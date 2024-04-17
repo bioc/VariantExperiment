@@ -5,7 +5,7 @@ valauthor:
   affiliation: Roswell Park Comprehensive Cancer Center, Buffalo, NY
 - name: Martin Morgan
   affiliation: Roswell Park Comprehensive Cancer Center, Buffalo, NY
-date: "last edit: 05/22/2021"
+date: "last edit: 04/10/2024"
 output:
     BiocStyle::html_document:
         toc: true
@@ -212,10 +212,10 @@ and could be retrieved by `colData()`.
 colData(ve)
 ``` 
 
-The `gdsfile()` will retrieve the gds file path associated with the
+The `gdsfn()` will retrieve the gds file path associated with the
 `VariantExperiment` object.
 ```{r gdsfile}
-gdsfile(ve)
+gdsfn(ve)
 ```
 
 Some other getter function like `metadata()` will return any metadata
@@ -250,7 +250,7 @@ ve
 Internally, the `VCF` file was converted into a on-disk `GDS` file,
 which could be retrieved by:
 ```{r retrieve GDS}
-gdsfile(ve)
+gdsfn(ve)
 ```
 
 assay data is in `DelayedArray` format:
@@ -451,7 +451,7 @@ directory.
 
 ```{r loadVE}
 ve3 <- loadVariantExperiment(dir=a)
-gdsfile(ve3)
+gdsfn(ve3)
 all.equal(ve2, ve3)
 ```
 

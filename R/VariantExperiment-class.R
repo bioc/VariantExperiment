@@ -52,27 +52,6 @@ VariantExperiment <- function(assays, rowRanges=GRangesList(),
     new("VariantExperiment", result)
 }
 
-## VariantExperiment <- function(assays, rowRanges=GRangesList(), colData=DelayedDataFrame(), metadata=list(), ...)
-## {
-##     ## se <- SummarizedExperiment:::.new_RangedSummarizedExperiment(
-##     se <- VariantExperiment(
-##         rowRanges=rowRanges,
-##         colData=colData,
-##         assays=assays,
-##         ...)
-##     ## rowData(se) <- as(rowData(se), "DelayedDataFrame")
-##     ## colData(se) <- as(colData(se), "DelayedDataFrame")
-##     ## mcols(rowRanges(se)) <- rowData(se)
-##     as(se, "VariantExperiment")
-## }
-
-## setAs("SummarizedExperiment", "VariantExperiment", function(from)
-## {
-##     ## gf <- gdsfile(from)
-##     ## .VariantExperiment(from, gdsfile = gf)
-##     .VariantExperiment(from)
-## })
-
 ###----------------
 ### Coercion
 ###----------------
@@ -88,8 +67,8 @@ VariantExperiment <- function(assays, rowRanges=GRangesList(),
     if(!all(vapply(assays(x), is, logical(1), "DelayedArray")))
         return(wmsg("'assays(x)' must be DelayedArray object"))
     
-    ## ## gdsfile correlated with assay data
-    ## if(is.character(gdsfile(x)))
+    ## ## gdsfn correlated with assay data
+    ## if(is.character(gdsfn(x)))
     ##     return(wmsg("There should be an gds file correlated with 'x'"))
     TRUE
 }
@@ -103,40 +82,40 @@ setValidity2("VariantExperiment", .validate_VariantExperiment)
 ### getter and setter
 ###--------------------
 
-## Still keep the `gdsfile()` function here, so that
+## Still keep the `gdsfn()` function here, so that
 ## save/loadVariantExperiment() function works.
 
-## `gdsfile()` function assumes that the VE comes from a single gds
+## `gdsfn()` function assumes that the VE comes from a single gds
 ## file or vcf file that was internally represented by a single gds
 ## file.
 
-#' @export gdsfile
+#' @export gdsfn
 #' @rdname VariantExperiment-class
 #' @param object a \code{VariantExperiment} object.
 
-setMethod("gdsfile", "VariantExperiment", function(object)
-    ## vapply(assays(object), gdsfile, character(1)))
-    gdsfile(assays(object)[[1]])   ## here we assume all assay data are
+setMethod("gdsfn", "VariantExperiment", function(object)
+    ## vapply(assays(object), gdsfn, character(1)))
+    gdsfn(assays(object)[[1]])   ## here we assume all assay data are
                           ## correlated with the same gds file.
 )
 
-## ?? disable the "gdsfile" setter for now. Use
-## "saveVariantExperiment" to save to a new file path.
+## ## ?? disable the "gdsfn" setter for now. Use
+## ## "saveVariantExperiment" to save to a new file path.
 
-#' @export "gdsfile<-"
-#' @param value the new gds file path for VariantExperiment object.
-#' @rdname VariantExperiment-class
-setReplaceMethod("gdsfile", "VariantExperiment", function(object, value) {
-    new_filepath <- tools::file_path_as_absolute(value)
-    assays(object) <- lapply(assays(object), function(assay)
-        BiocGenerics:::replaceSlots(seed(assay), file=value, check=FALSE))
-    if (is(colData(object), "DelayedDataFrame")) {
-        colData(object) <- DelayedDataFrame(lapply(colData(object), function(cols)
-            BiocGenerics:::replaceSlots(seed(cols), file=value, check=FALSE)))
-    }
-    if (is(rowData(object), "DelayedDataFrame")) {
-        rowData(object) <- DelayedDataFrame(lapply(rowData(object), function(cols)
-            BiocGenerics:::replaceSlots(seed(cols), file=value, check=FALSE)))
-    }
-    object
-})
+## #' @export "gdsfn<-"
+## #' @param value the new gds file path for VariantExperiment object.
+## #' @rdname VariantExperiment-class
+## setReplaceMethod("gdsfn", "VariantExperiment", function(object, value) {
+##     new_filepath <- tools::file_path_as_absolute(value)
+##     assays(object) <- lapply(assays(object), function(assay)
+##         BiocGenerics:::replaceSlots(seed(assay), file=value, check=FALSE))
+##     if (is(colData(object), "DelayedDataFrame")) {
+##         colData(object) <- DelayedDataFrame(lapply(colData(object), function(cols)
+##             BiocGenerics:::replaceSlots(seed(cols), file=value, check=FALSE)))
+##     }
+##     if (is(rowData(object), "DelayedDataFrame")) {
+##         rowData(object) <- DelayedDataFrame(lapply(rowData(object), function(cols)
+##             BiocGenerics:::replaceSlots(seed(cols), file=value, check=FALSE)))
+##     }
+##     object
+## })
