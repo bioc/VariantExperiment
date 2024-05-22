@@ -55,7 +55,7 @@
 #' ve <- makeVariantExperimentFromVCF(vcf)
 #' ve
 #' ## the filepath to the gds file.
-#' gdsfn(ve)
+#' gdsfile(ve)
 #' 
 #' ## only read in specific info columns
 #' ve <- makeVariantExperimentFromVCF(vcf, out.dir = tempfile(),

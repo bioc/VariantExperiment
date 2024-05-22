@@ -52,7 +52,7 @@ is FALSE.}
 }
 \value{
 An \code{VariantExperiment} object with the new
-    \code{gdsfn()} \code{ve.gds} as specified in \code{dir}
+    \code{gdsfile()} \code{ve.gds} as specified in \code{dir}
     argument.
 }
 \description{
@@ -70,12 +70,12 @@ If the input \code{SummarizedExperiment} object has
 \examples{
 gds <- SeqArray::seqExampleFileName("gds")
 ve <- makeVariantExperimentFromGDS(gds)
-gdsfn(ve)
+gdsfile(ve)
 ve1 <- subsetByOverlaps(ve, GRanges("22:1-48958933"))
 ve1
-gdsfn(ve1)
+gdsfile(ve1)
 aa <- tempfile()
 obj <- saveVariantExperiment(ve1, dir=aa, replace=TRUE)
 obj
-gdsfn(obj)
+gdsfile(obj)
 }
