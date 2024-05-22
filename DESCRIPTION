@@ -1,7 +1,7 @@
 Package: VariantExperiment
 Title: A RangedSummarizedExperiment Container for VCF/GDS Data with
     GDS Backend
-Version: 1.19.1
+Version: 1.19.2
 Authors@R: c(
     person(
         "Qian", "Liu", email = "Qian.Liu@roswellpark.org", role=c("aut", "cre")
@@ -43,6 +43,6 @@ Imports:
     DelayedArray,
     Biostrings, 
     IRanges
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: testthat, knitr, rmarkdown, markdown, BiocStyle
 VignetteBuilder: knitr

@@ -67,8 +67,8 @@ VariantExperiment <- function(assays, rowRanges=GRangesList(),
     if(!all(vapply(assays(x), is, logical(1), "DelayedArray")))
         return(wmsg("'assays(x)' must be DelayedArray object"))
     
-    ## ## gdsfn correlated with assay data
-    ## if(is.character(gdsfn(x)))
+    ## ## gdsfile correlated with assay data
+    ## if(is.character(gdsfile(x)))
     ##     return(wmsg("There should be an gds file correlated with 'x'"))
     TRUE
 }
@@ -82,30 +82,30 @@ setValidity2("VariantExperiment", .validate_VariantExperiment)
 ### getter and setter
 ###--------------------
 
-## Still keep the `gdsfn()` function here, so that
+## Still keep the `gdsfile()` function here, so that
 ## save/loadVariantExperiment() function works.
 
-## `gdsfn()` function assumes that the VE comes from a single gds
+## `gdsfile()` function assumes that the VE comes from a single gds
 ## file or vcf file that was internally represented by a single gds
 ## file.
 
-#' @export gdsfn
+#' @export gdsfile
 #' @rdname VariantExperiment-class
 #' @param object a \code{VariantExperiment} object.
 
-setMethod("gdsfn", "VariantExperiment", function(object)
-    ## vapply(assays(object), gdsfn, character(1)))
-    gdsfn(assays(object)[[1]])   ## here we assume all assay data are
+setMethod("gdsfile", "VariantExperiment", function(object)
+    ## vapply(assays(object), gdsfile, character(1)))
+    gdsfile(assays(object)[[1]])   ## here we assume all assay data are
                           ## correlated with the same gds file.
 )
 
-## ## ?? disable the "gdsfn" setter for now. Use
+## ## ?? disable the "gdsfile" setter for now. Use
 ## ## "saveVariantExperiment" to save to a new file path.
 
-## #' @export "gdsfn<-"
+## #' @export "gdsfile<-"
 ## #' @param value the new gds file path for VariantExperiment object.
 ## #' @rdname VariantExperiment-class
-## setReplaceMethod("gdsfn", "VariantExperiment", function(object, value) {
+## setReplaceMethod("gdsfile", "VariantExperiment", function(object, value) {
 ##     new_filepath <- tools::file_path_as_absolute(value)
 ##     assays(object) <- lapply(assays(object), function(assay)
 ##         BiocGenerics:::replaceSlots(seed(assay), file=value, check=FALSE))

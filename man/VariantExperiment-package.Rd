@@ -7,3 +7,21 @@
 \description{
 The package \code{VariantExperiment} takes GDS file or VCF file as input, and save them in VariantExperiment object. Assay data are saved in \code{GDSArray} objects and annotation data are saved in \code{DelayedDataFrame} format, both of which remain on-disk until needed. Common manipulations like subsetting, mathematical transformation and statistical analysis are done easily and quickly in _R_.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Bioconductor/VariantExperiment}
+  \item Report bugs at \url{https://github.com/Bioconductor/VariantExperiment/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Qian Liu \email{Qian.Liu@roswellpark.org}
+
+Authors:
+\itemize{
+  \item Herv<U+00E9> Pag<U+00E8>s
+  \item Martin Morgan
+}
+
+}

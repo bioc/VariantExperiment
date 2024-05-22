@@ -212,10 +212,10 @@ and could be retrieved by `colData()`.
 colData(ve)
 ``` 
 
-The `gdsfn()` will retrieve the gds file path associated with the
+The `gdsfile()` will retrieve the gds file path associated with the
 `VariantExperiment` object.
 ```{r gdsfile}
-gdsfn(ve)
+gdsfile(ve)
 ```
 
 Some other getter function like `metadata()` will return any metadata
@@ -250,7 +250,7 @@ ve
 Internally, the `VCF` file was converted into a on-disk `GDS` file,
 which could be retrieved by:
 ```{r retrieve GDS}
-gdsfn(ve)
+gdsfile(ve)
 ```
 
 assay data is in `DelayedArray` format:
@@ -451,7 +451,7 @@ directory.
 
 ```{r loadVE}
 ve3 <- loadVariantExperiment(dir=a)
-gdsfn(ve3)
+gdsfile(ve3)
 all.equal(ve2, ve3)
 ```
 

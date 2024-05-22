@@ -27,7 +27,7 @@
     put.attr.gdsn(gfile$root, "FileVersion", "v1.0")
     dscp <- addfolder.gdsn(gfile, "description", replace=TRUE)
     ## read and add the $reference (4/5/21)
-    add.gdsn(dscp, "reference", SeqArray::seqSummary(gdsfn(ve), verbose = FALSE)$reference)
+    add.gdsn(dscp, "reference", SeqArray::seqSummary(gdsfile(ve), verbose = FALSE)$reference)
     put.attr.gdsn(dscp, "source.format",
                   "GDSArray-based SummarizedExperiment")
     add.gdsn(gfile, "sample.id", colnames(ve), compress=compress,
@@ -248,7 +248,7 @@
         ## if (all(vapply(SummarizedExperiment::colData(ve),
         ##                function(x) is(x, "DelayedArray"), logical(1)))){
         ##     for (i in seq_len(ncol(SummarizedExperiment::colData(ve)))){
-        ##         gdsfn(seed(SummarizedExperiment::colData(ve)[[i]])) <- gds_path
+        ##         gdsfile(seed(SummarizedExperiment::colData(ve)[[i]])) <- gds_path
         ##     }
         ## }else {
         coldata <- .colData_seqgds(gds_path, smpnode,
@@ -263,7 +263,7 @@
     if (rowDataOnDisk){
         ## if (all(vapply(rowData(ve), function(x) is(x, "DelayedArray"), logical(1)))){
         ##     for (i in seq_len(ncol(rowData(ve)))){
-        ##         gdsfn(seed(rowData(ve)[[i]])) <- gds_path
+        ##         gdsfile(seed(rowData(ve)[[i]])) <- gds_path
         ##     }
         ## }else {
         ## gds_path has the same contents as in ve. so the row/colDataColumns should be the same. 
@@ -307,7 +307,7 @@
 #' @param verbose whether to print the process messages. The default
 #'     is FALSE.
 #' @return An \code{VariantExperiment} object with the new
-#'     \code{gdsfn()} \code{ve.gds} as specified in \code{dir}
+#'     \code{gdsfile()} \code{ve.gds} as specified in \code{dir}
 #'     argument.
 #' @export
 #' @details If the input \code{SummarizedExperiment} object has
@@ -318,14 +318,14 @@
 #' @examples
 #' gds <- SeqArray::seqExampleFileName("gds")
 #' ve <- makeVariantExperimentFromGDS(gds)
-#' gdsfn(ve)
+#' gdsfile(ve)
 #' ve1 <- subsetByOverlaps(ve, GRanges("22:1-48958933"))
 #' ve1
-#' gdsfn(ve1)
+#' gdsfile(ve1)
 #' aa <- tempfile()
 #' obj <- saveVariantExperiment(ve1, dir=aa, replace=TRUE)
 #' obj
-#' gdsfn(obj)
+#' gdsfile(obj)
 
 saveVariantExperiment <-
     function(ve, dir=tempdir(), replace=FALSE, fileFormat=NULL,
@@ -347,7 +347,7 @@ saveVariantExperiment <-
     gds_path <- file.path(dir, "ve.gds")
     
     if (is(assay(ve, 1), "DelayedArray"))
-        fileFormat <- .get_gds_fileFormat(gdsfn(ve))
+        fileFormat <- .get_gds_fileFormat(gdsfile(ve))
     
     ## initiate gds file.
     ## FIXME: need a function to initiate other types of gds file... 
